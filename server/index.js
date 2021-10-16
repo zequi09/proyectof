@@ -1,6 +1,6 @@
 const express = require("express")
 const mysql = require("mysql")
-const port = 3002
+const port = 8082
 const dgram = require('dgram');
 const { appendFile } = require("fs")
 const socket = dgram.createSocket('udp4');
@@ -64,7 +64,6 @@ const db = mysql.createConnection({
   database:"LoginSystem",
 })
 
-app.post
 
 socket.on('listening', () => {
   let addr = socket.address();
@@ -80,6 +79,17 @@ socket.on('message', (msg, rinfo) => {
   console.log(`Recieved UDP message ${msg} from ${address.address}`);
   message = msg
   console.log(`El mensaje es: ${message}`)
+  const msgConv = message.length > 0 ?  JSON.parse(message): ""
+  
+
+  if (msgConv[0] || msgConv[1] || msgConv[2] || msgConv[3] > 40 && msgConv[4] || msgConv[5] || msgConv[6] || msgConv[7] > 300) {
+    db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+  [msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12]],
+  (err, result)  => {
+    console.log(err)
+  }
+  )
+  }
 });
 
 app.get('/data', (req,res) => {
@@ -89,6 +99,7 @@ app.get('/data', (req,res) => {
     data
   })
 })
+
 
 app.set('port', 8080); // listen for TCP with Express
 socket.bind(8082);     // listen for UDP with dgram

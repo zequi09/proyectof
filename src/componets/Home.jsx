@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react'
 import Chart from "react-google-charts";
 import GaugeChart from 'react-gauge-chart'
 import {NotificationManager} from 'react-notifications';
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material'; 
+import {ExpandMoreOutlined} from '@mui/icons-material'
+import YoutubeEmbed from './YoutubeEmbed';
 
 const Home = () => {
     
@@ -31,7 +34,7 @@ const Home = () => {
     useEffect(() => {
 
         const refresh = setInterval( () => {
-            axios.get('http://localhost:3002/data')
+            axios.get('http://localhost:8082/data')
             .then( response => {
                 console.log(response.data.data)
                 setData(response.data.data)
@@ -74,10 +77,10 @@ const Home = () => {
         <div>
             <h1 >Aquí es el home</h1>
                 <hr />
-                {data && data.map( data => 
+                {/* {data && data.map( data => 
                     <li>{data}</li>
                 )
-                }
+                } */}
                 <hr />
                 <div className="container" style={{backgroundColor: "#ff9e00",
                     borderRadius:"20px",
@@ -181,13 +184,47 @@ const Home = () => {
                                     arcPadding={0.03}
                                     />
                             </div>
-                    </div>
-                    <div className="row">
-
-                        
-                    </div>
-                    
+                    </div>  
                 </div>
+                <br />
+                <br />
+                <Accordion 
+                    style={{
+                        borderRadius: "1rem",
+                        boxShadow: "1rem 1rem 1rem 1rem #adb5bd",
+                        width: "90%",
+                        alignContent: "center",
+                        margin:"auto"
+                    }}>
+                        <AccordionSummary expandIcon={<ExpandMoreOutlined/>}>
+                            <Typography style={{
+                                fontSize: "1.5rem",
+                                fontWeight:"bold"
+                            }}>Históricos</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam placeat reiciendis ad. Maxime deserunt eaque possimus voluptas dolore sapiente perspiciatis harum accusamus cumque ex adipisci non, voluptatem, officiis quasi fuga!</p>
+                        </AccordionDetails>
+                </Accordion>
+                <br/>
+                <Accordion 
+                    style={{
+                        borderRadius: "1rem",
+                        boxShadow: "1rem 1rem 1rem 1rem #adb5bd",
+                        width: "90%",
+                        alignContent: "center",
+                        margin:"auto"
+                    }}>
+                        <AccordionSummary expandIcon={<ExpandMoreOutlined/>}>
+                            <Typography style={{
+                                fontSize: "1.5rem",
+                                fontWeight:"bold"
+                            }}>Video en vivo</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <YoutubeEmbed embedId="aNytFGgelc0" />
+                        </AccordionDetails>
+                </Accordion>
         </div>
     )
 }

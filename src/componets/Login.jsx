@@ -25,7 +25,7 @@ const Login = () => {
     }
 
     const register = () => {
-        Axios.post('http://localhost:3002/register', {
+        Axios.post('http://localhost:8082/register', {
           username: email,
           password: pass,
         }).then((response) => {
@@ -35,14 +35,16 @@ const Login = () => {
 
 
     const login = () => {
-        Axios.post('http://localhost:3002/login', {
+        Axios.post('http://localhost:8082/login', {
           username: email,
           password: pass,
         }).then((response) => {
             console.log(response);
-            if (response.status === 200) {
-                NotificationManager.success('Hola', 'Hola')
+            if (response.data.length > 0) {
+                NotificationManager.success('Usuario y contraseña validados', 'Ingreso exitoso')
                 history.push("/home")
+            } else {
+                NotificationManager.error('Usuario y contraseña no validados', 'Ingreso fallido')
             }
         })
         
