@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react'
 import Chart from "react-google-charts";
 import GaugeChart from 'react-gauge-chart'
 import {NotificationManager} from 'react-notifications';
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material'; 
-import {ExpandMoreOutlined} from '@mui/icons-material'
 import YoutubeEmbed from './YoutubeEmbed';
+import Accordion from 'react-bootstrap/Accordion'
 
 const Home = () => {
     
@@ -188,43 +187,36 @@ const Home = () => {
                 </div>
                 <br />
                 <br />
-                <Accordion 
-                    style={{
-                        borderRadius: "1rem",
-                        boxShadow: "1rem 1rem 1rem 1rem #adb5bd",
-                        width: "90%",
-                        alignContent: "center",
-                        margin:"auto"
-                    }}>
-                        <AccordionSummary expandIcon={<ExpandMoreOutlined/>}>
-                            <Typography style={{
-                                fontSize: "1.5rem",
-                                fontWeight:"bold"
-                            }}>Históricos</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam placeat reiciendis ad. Maxime deserunt eaque possimus voluptas dolore sapiente perspiciatis harum accusamus cumque ex adipisci non, voluptatem, officiis quasi fuga!</p>
-                        </AccordionDetails>
-                </Accordion>
+                <Accordion
+                style={{
+                    borderRadius: "1rem",
+                    boxShadow: "1rem 1rem 1rem 1rem #adb5bd",
+                    width: "90%",
+                    alignContent: "center",
+                    margin:"auto"
+                }}>
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header>Accordion Item #1</Accordion.Header>
+                        <Accordion.Body>
+                        <YoutubeEmbed embedId="rokGy0huYEA"/>
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <hr/>
+                    <Accordion.Item eventKey="1">
+                        <Accordion.Header>Accordion Item #2</Accordion.Header>
+                        <Accordion.Body>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                        est laborum.
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    </Accordion>
                 <br/>
-                <Accordion 
-                    style={{
-                        borderRadius: "1rem",
-                        boxShadow: "1rem 1rem 1rem 1rem #adb5bd",
-                        width: "90%",
-                        alignContent: "center",
-                        margin:"auto"
-                    }}>
-                        <AccordionSummary expandIcon={<ExpandMoreOutlined/>}>
-                            <Typography style={{
-                                fontSize: "1.5rem",
-                                fontWeight:"bold"
-                            }}>Video en vivo</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <YoutubeEmbed embedId="aNytFGgelc0" />
-                        </AccordionDetails>
-                </Accordion>
+                
         </div>
     )
 }
