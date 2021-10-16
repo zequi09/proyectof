@@ -1,6 +1,6 @@
 const express = require("express")
 const mysql = require("mysql")
-const port = 8082
+const port = 3002
 const dgram = require('dgram');
 const { appendFile } = require("fs")
 const socket = dgram.createSocket('udp4');

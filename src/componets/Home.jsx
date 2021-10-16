@@ -34,7 +34,7 @@ const Home = () => {
     useEffect(() => {
 
         const refresh = setInterval( () => {
-            axios.get('http://localhost:8082/data')
+            axios.get('http://localhost:3002/data')
             .then( response => {
                 console.log(response.data.data)
                 setData(response.data.data)
