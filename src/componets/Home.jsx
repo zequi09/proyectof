@@ -37,6 +37,7 @@ const Home = () => {
     const [post, setPost] = useState([])
     const [historicalData,setHistoricalData] = useState([])
     const [incendio, setIncendio] = useState(false)
+    const [humoAlto, setHumoAlto] = useState(false)
 
     const  historical = async () => {
         await axios.get('http://54.158.248.204:3002/historical')
@@ -75,18 +76,24 @@ const Home = () => {
                 //--------------------------------------------ALARMAS DE HUMO----------------------------------------
                 if(response.data.data[0]>=30){
                     NotificationManager.warning('Su nivel de humo en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
-                }
+                    setHumoAlto(true)
+                }else
 
                 if(response.data.data[1]>=30){
                     NotificationManager.warning('Su nivel de humo en la zona 2 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
-                }
+                    setHumoAlto(true)
+                }else
 
                 if(response.data.data[2]>=30){
                     NotificationManager.warning('Su nivel de humo en la zona 3 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
-                }
+                    setHumoAlto(true)
+                }else
 
                 if(response.data.data[3]>=30){
                     NotificationManager.warning('Su nivel de humo en la zona 4 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
+                    setHumoAlto(true)
+                }else{
+                    setHumoAlto(false)
                 }
 
                 //--------------------------------------------ALARMAS DE INCENDIO----------------------------------------
@@ -157,7 +164,7 @@ const Home = () => {
                  }
 
                 <h2>Sistema ventilación:</h2>
-                {incendio ? 
+                {incendio || humoAlto ? 
                 <h3 style={{color:"red"}}>OFF</h3>
                 :
                 <h3 style={{color:"green"}}>ON</h3>
@@ -311,7 +318,7 @@ const Home = () => {
                                 </AccordionItemButton>
                             </AccordionItemHeading>
                             <AccordionItemPanel>
-                                <YoutubeEmbed embedId="rokGy0huYEA"/>
+                                <YoutubeEmbed embedId="mSEsTjxRTAI"/>
                             </AccordionItemPanel>
                         </AccordionItem> }
                         <hr/>
