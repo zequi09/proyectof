@@ -5,7 +5,15 @@ import Chart from "react-google-charts";
 import GaugeChart from 'react-gauge-chart'
 import {NotificationManager} from 'react-notifications';
 import YoutubeEmbed from './YoutubeEmbed';
-import Accordion from 'react-bootstrap/Accordion'
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemHeading,
+    AccordionItemButton,
+    AccordionItemPanel,
+} from 'react-accessible-accordion';
+import { borderRadius } from '@mui/system';
+
 
 const Home = () => {
     
@@ -27,15 +35,26 @@ const Home = () => {
 
     const [tanque,setTanque] = useState("")
     const [post, setPost] = useState([])
+    const [historicalData,setHistoricalData] = useState([])
+    const [incendio, setIncendio] = useState(false)
 
-    
-    
+    const  historical = async () => {
+        await axios.get('http://54.158.248.204:4000/historical')
+        .then( response => {
+            setHistoricalData(response.data.historicos)
+            console.log(response.data.historicos)
+        })
+        .catch( (err) => {
+            console.log(err)
+        })
+    }
+
     useEffect(() => {
+        
 
         const refresh = setInterval( () => {
-            axios.get('http://54.160.193.245:3002/data')
+            axios.get('http://54.158.248.204:4000/data')
             .then( response => {
-                console.log(response.data.data)
                 setData(response.data.data)
                 setHumo1(response.data.data[0])
                 setHumo2(response.data.data[1])
@@ -53,33 +72,155 @@ const Home = () => {
                 setTemp4(response.data.data[11])
     
                 setTanque(response.data.data[12])
-    
-                if (response.data.data[12] < 1.2) {
-                    NotificationManager.warning('Alarma de tanque', 'Su nivel de agua está bajo', 1500)
+                //--------------------------------------------ALARMAS DE HUMO----------------------------------------
+                if (response.data.data[0]<40 && response.data.data[0]>=35 ) {
+                    NotificationManager.info('Su nivel de humo en la zona 1 está elevado', 'NOTIFICACION DE HUMO', 1200)
+                }else if(response.data.data[0]>=40){
+                    NotificationManager.warning('Su nivel de humo en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
                 }
-                if (response.data.data[0] < 16) {
-                    NotificationManager.error('Alarma de humo', 'Su nivel de humo está muy alto', 1500)
+
+                if (response.data.data[1]<40 && response.data.data[1]>=35 ) {
+                    NotificationManager.info('Su nivel de humo en la zona 2 está elevado', 'NOTIFICACION DE HUMO', 1200)
+                }else if(response.data.data[1]>=40){
+                    NotificationManager.warning('Su nivel de humo en la zona 2 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
                 }
-                if (response.data.data[1] < 31) {
-                    NotificationManager.info('Alarma de humo', 'Su nivel de humo está muy alto', 1500)
+
+                if (response.data.data[2]<40 && response.data.data[2]>=35 ) {
+                    NotificationManager.info('Su nivel de humo en la zona 3 está elevado', 'NOTIFICACION DE HUMO', 1200)
+                }else if(response.data.data[2]>=40){
+                    NotificationManager.warning('Su nivel de humo en la zona 3 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
                 }
+
+                if (response.data.data[3]<40 && response.data.data[3]>=35 ) {
+                    NotificationManager.info('Su nivel de humo en la zona 4 está elevado', 'NOTIFICACION DE HUMO', 1200)
+                }else if(response.data.data[3]>=40){
+                    NotificationManager.warning('Su nivel de humo en la zona 4 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
+                }
+                //--------------------------------------------ALARMAS DE LLAMAS----------------------------------------
+
+                if (response.data.data[4]<300 && response.data.data[4]>=280 ) {
+                    NotificationManager.info('Su nivel de llama en la zona 1 está elevado', 'NOTIFICACION DE LLAMA', 1200)
+                }else if(response.data.data[4]>=300){
+                    NotificationManager.warning('Su nivel de llama en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE LLAMA', 1200)
+                }
+
+                if (response.data.data[5]<300 && response.data.data[5]>=280 ) {
+                    NotificationManager.info('Su nivel de llama en la zona 2 está elevado', 'NOTIFICACION DE LLAMA', 1200)
+                }else if(response.data.data[5]>=300){
+                    NotificationManager.warning('Su nivel de llama en la zona 2 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE LLAMA', 1200)
+                }
+
+                if (response.data.data[6]<300 && response.data.data[6]>=280 ) {
+                    NotificationManager.info('Su nivel de llama en la zona 3 está elevado', 'NOTIFICACION DE LLAMA', 1200)
+                }else if(response.data.data[6]>=300){
+                    NotificationManager.warning('Su nivel de llama en la zona 3 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE LLAMA', 1200)
+                }
+
+                if (response.data.data[7]<300 && response.data.data[7]>=280 ) {
+                    NotificationManager.info('Su nivel de llama en la zona 4 está elevado', 'NOTIFICACION DE LLAMA', 1200)
+                }else if(response.data.data[7]>=300){
+                    NotificationManager.warning('Su nivel de llama en la zona 4 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE LLAMA', 1200)
+                }
+                //--------------------------------------------ALARMAS DE TEMPERATURA----------------------------------------
+                
+                if (response.data.data[8]<40 && response.data.data[8]>=35 ) {
+                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }else if(response.data.data[8]>=40){
+                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }
+
+                if (response.data.data[9]<40 && response.data.data[9]>=35 ) {
+                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }else if(response.data.data[9]>=40){
+                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }
+
+                if (response.data.data[10]<40 && response.data.data[10]>=35 ) {
+                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }else if(response.data.data[10]>=40){
+                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }
+
+                if (response.data.data[11]<40 && response.data.data[11]>=35 ) {
+                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }else if(response.data.data[11]>=40){
+                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }
+                //--------------------------------------------ALARMAS DE TANQUE----------------------------------------
+                if (response.data.data[8]<40 && response.data.data[8]>=35 ) {
+                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }else if(response.data.data[8]>=40){
+                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
+                }
+
+                if (response.data.data[4] > 300 && response.data.data[8] > 40){
+                    setIncendio(true)
+                } else if (response.data.data[5] > 300 && response.data.data[9] > 40){
+                    setIncendio(true)
+                } else if (response.data.data[6] > 300 && response.data.data[10] > 40){
+                    setIncendio(true)
+                } else if (response.data.data[7] > 300 && response.data.data[11] > 40){
+                    setIncendio(true)
+                }
+                
+               
             })
             .catch( error => {
                 console.log(error);
             })
-        }, 5000)
+        }, 8000)
         return () => clearInterval(refresh)
     },[post])
 
 
     return (
         <div>
-            <h1 >Aquí es el home</h1>
+            <h1 >Bienvenido </h1>
                 <hr />
                 {/* {data && data.map( data => 
                     <li>{data}</li>
                 )
                 } */}
+                
+                <div style={{
+                    justifyContent:"center",
+                    borderRadius:"1rem 1rem 1rem 1rem",
+                    boxShadow: "5px 5px 5px 5px #adb5bd", 
+                    textAlign:"center",
+                    width:"90%",
+                    margin:"auto"
+                    
+                }}>
+                <h1>Sistemas auxiliares</h1>
+                <h2>Sistema eléctrico:</h2>
+                {incendio ? 
+                <h3 style={{color:"red"}}>OFF</h3>
+                :
+                <h3 style={{color:"green"}}>ON</h3>
+                 }
+
+                <h2>Sistema ventilación:</h2>
+                {incendio ? 
+                <h3 style={{color:"red"}}>OFF</h3>
+                :
+                <h3 style={{color:"green"}}>ON</h3>
+                 }
+
+                <h2>Electrovalvula:</h2>
+                {incendio ? 
+                <h3 style={{color:"green"}}>ON</h3>
+                :
+                <h3 style={{color:"red"}}>OFF</h3>
+                 }
+
+                <h2>Sirenas:</h2>
+                {incendio ? 
+                <h3 style={{color:"green"}}>ON</h3>
+                :
+                <h3 style={{color:"red"}}>OFF</h3>
+                 }
+                 </div>
+
                 <hr />
                 <div className="container" style={{backgroundColor: "#ff9e00",
                     borderRadius:"20px",
@@ -130,7 +271,7 @@ const Home = () => {
                                     chartArea: { width: '50%' },
                                     colors: ['#0d47a1', '#1976d2', '#2196f3', '#64b5f6'],
                                     hAxis: {
-                                    title: 'Valores en XXXX',
+                                    title: 'Valores analógicos',
                                     minValue: 0,
                                     },
                                     vAxis: {
@@ -182,38 +323,78 @@ const Home = () => {
                                     percent={tanque/3}
                                     arcPadding={0.03}
                                     />
+                                    {tanque < 1.2 ? <h2 style={{color:"red"}}>Tanque con baja reserva de agua</h2> : <h2 style={{color:"rgb(63 139 36)"}}>Tanque con buena reserva de agua</h2>}
                             </div>
                     </div>  
                 </div>
                 <br />
                 <br />
-                <Accordion
-                style={{
-                    borderRadius: "1rem",
-                    boxShadow: "1rem 1rem 1rem 1rem #adb5bd",
-                    width: "90%",
-                    alignContent: "center",
-                    margin:"auto"
-                }}>
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header>Accordion Item #1</Accordion.Header>
-                        <Accordion.Body>
-                        <YoutubeEmbed embedId="rokGy0huYEA"/>
-                        </Accordion.Body>
-                    </Accordion.Item>
-                    <hr/>
-                    <Accordion.Item eventKey="1">
-                        <Accordion.Header>Accordion Item #2</Accordion.Header>
-                        <Accordion.Body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                        est laborum.
-                        </Accordion.Body>
-                    </Accordion.Item>
+
+                    <Accordion allowMultipleExpanded style={{
+                            borderRadius: "1rem",
+                            boxShadow: "1rem 1rem 1rem 1rem #adb5bd",
+                            width: "90%",
+                            alignContent: "center",
+                            margin:"auto",
+                            fontSize:"1.6rem"
+                        }}>
+                        { incendio   && <AccordionItem>
+                            <AccordionItemHeading style={{
+                            display:"flex",
+                            justifyContent:"center",
+                            width:"100%"
+                        }}>
+                                <AccordionItemButton style={{
+                                    display:"flex",
+                                    justifyContent:"center",
+                                    width:"100%",
+                                    fontWeight:"bold"
+                                }}>
+                                    Transmisión en vivo
+                                </AccordionItemButton>
+                            </AccordionItemHeading>
+                            <AccordionItemPanel>
+                                <YoutubeEmbed embedId="rokGy0huYEA"/>
+                            </AccordionItemPanel>
+                        </AccordionItem> }
+                        <hr/>
+                        <AccordionItem>
+                            <AccordionItemHeading style={{
+                            display:"flex",
+                            justifyContent:"center",
+                            width:"100%"
+                        }}>
+                                <AccordionItemButton style={{
+                                    display:"flex",
+                                    justifyContent:"center",
+                                    width:"100%",
+                                    fontWeight:"bold"
+                                }}>
+                                    Históricos
+                                </AccordionItemButton>
+                            </AccordionItemHeading>
+                            <AccordionItemPanel>
+                            <button onClick={historical} className="btn btn-primary btn-lg btn-block">Históricos</button>
+                            {/* {historicalData.map(({ID, Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level}) => 
+                                ({ 
+                                    Humo1: Humo1, 
+                                    Humo2: Humo2,
+                                    Humo3: Humo3,
+                                    Humo4: Humo4,
+                                    Llama1: Llama1,
+                                    Llama2: Llama2,
+                                    Llama3: Llama3,
+                                    Llama4: Llama4,
+                                    Temp1: Temp1,
+                                    Temp2: Temp2,
+                                    Temp3: Temp3,
+                                    Temp4: Temp4,
+                                    Level: Level
+
+                                })
+                            )} */}
+                            </AccordionItemPanel>
+                        </AccordionItem>
                     </Accordion>
                 <br/>
                 
