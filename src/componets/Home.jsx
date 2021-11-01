@@ -39,7 +39,7 @@ const Home = () => {
     const [incendio, setIncendio] = useState(false)
 
     const  historical = async () => {
-        await axios.get('http://54.158.248.204:4000/historical')
+        await axios.get('http://54.158.248.204:3002/historical')
         .then( response => {
             setHistoricalData(response.data.historicos)
             console.log(response.data.historicos)
@@ -53,7 +53,7 @@ const Home = () => {
         
 
         const refresh = setInterval( () => {
-            axios.get('http://54.158.248.204:4000/data')
+            axios.get('http://54.158.248.204:3002/data')
             .then( response => {
                 setData(response.data.data)
                 setHumo1(response.data.data[0])

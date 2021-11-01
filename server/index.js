@@ -1,6 +1,6 @@
 const express = require("express")
 const mysql = require("mysql")
-const port = 4000
+const port = 3002
 const dgram = require('dgram');
 const { appendFile } = require("fs")
 const socket = dgram.createSocket('udp4');
@@ -143,4 +143,4 @@ app.get('/data', (req,res) => {
 
 
 app.set('port', 8080); // listen for TCP with Express
-socket.bind(8085);     // listen for UDP with dgram
+socket.bind(8082);     // listen for UDP with dgram
