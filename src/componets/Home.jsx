@@ -73,94 +73,51 @@ const Home = () => {
     
                 setTanque(response.data.data[12])
                 //--------------------------------------------ALARMAS DE HUMO----------------------------------------
-                if (response.data.data[0]<40 && response.data.data[0]>=35 ) {
-                    NotificationManager.info('Su nivel de humo en la zona 1 está elevado', 'NOTIFICACION DE HUMO', 1200)
-                }else if(response.data.data[0]>=40){
+                if(response.data.data[0]>=30){
                     NotificationManager.warning('Su nivel de humo en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
                 }
 
-                if (response.data.data[1]<40 && response.data.data[1]>=35 ) {
-                    NotificationManager.info('Su nivel de humo en la zona 2 está elevado', 'NOTIFICACION DE HUMO', 1200)
-                }else if(response.data.data[1]>=40){
+                if(response.data.data[1]>=30){
                     NotificationManager.warning('Su nivel de humo en la zona 2 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
                 }
 
-                if (response.data.data[2]<40 && response.data.data[2]>=35 ) {
-                    NotificationManager.info('Su nivel de humo en la zona 3 está elevado', 'NOTIFICACION DE HUMO', 1200)
-                }else if(response.data.data[2]>=40){
+                if(response.data.data[2]>=30){
                     NotificationManager.warning('Su nivel de humo en la zona 3 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
                 }
 
-                if (response.data.data[3]<40 && response.data.data[3]>=35 ) {
-                    NotificationManager.info('Su nivel de humo en la zona 4 está elevado', 'NOTIFICACION DE HUMO', 1200)
-                }else if(response.data.data[3]>=40){
+                if(response.data.data[3]>=30){
                     NotificationManager.warning('Su nivel de humo en la zona 4 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
                 }
-                //--------------------------------------------ALARMAS DE LLAMAS----------------------------------------
 
-                if (response.data.data[4]<300 && response.data.data[4]>=280 ) {
-                    NotificationManager.info('Su nivel de llama en la zona 1 está elevado', 'NOTIFICACION DE LLAMA', 1200)
-                }else if(response.data.data[4]>=300){
-                    NotificationManager.warning('Su nivel de llama en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE LLAMA', 1200)
+                //--------------------------------------------ALARMAS DE INCENDIO----------------------------------------
+
+                if(response.data.data[4]>=300 && response.data.data[8]>=40){
+                    NotificationManager.warning('Incendio en ZONA 1', 'NOTIFICACION DE INCENDIO', 1200)
                 }
 
-                if (response.data.data[5]<300 && response.data.data[5]>=280 ) {
-                    NotificationManager.info('Su nivel de llama en la zona 2 está elevado', 'NOTIFICACION DE LLAMA', 1200)
-                }else if(response.data.data[5]>=300){
-                    NotificationManager.warning('Su nivel de llama en la zona 2 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE LLAMA', 1200)
+                if(response.data.data[5]>=300 && response.data.data[9]>=40){
+                    NotificationManager.warning('Incendio en ZONA 2', 'NOTIFICACION DE INCENDIO', 1200)
                 }
 
-                if (response.data.data[6]<300 && response.data.data[6]>=280 ) {
-                    NotificationManager.info('Su nivel de llama en la zona 3 está elevado', 'NOTIFICACION DE LLAMA', 1200)
-                }else if(response.data.data[6]>=300){
-                    NotificationManager.warning('Su nivel de llama en la zona 3 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE LLAMA', 1200)
+                if(response.data.data[6]>=300 && response.data.data[10]>=40){
+                    NotificationManager.warning('Incendio en ZONA 3', 'NOTIFICACION DE INCENDIO', 1200)
                 }
 
-                if (response.data.data[7]<300 && response.data.data[7]>=280 ) {
-                    NotificationManager.info('Su nivel de llama en la zona 4 está elevado', 'NOTIFICACION DE LLAMA', 1200)
-                }else if(response.data.data[7]>=300){
-                    NotificationManager.warning('Su nivel de llama en la zona 4 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE LLAMA', 1200)
-                }
-                //--------------------------------------------ALARMAS DE TEMPERATURA----------------------------------------
-                
-                if (response.data.data[8]<40 && response.data.data[8]>=35 ) {
-                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
-                }else if(response.data.data[8]>=40){
-                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
-                }
-
-                if (response.data.data[9]<40 && response.data.data[9]>=35 ) {
-                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
-                }else if(response.data.data[9]>=40){
-                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
-                }
-
-                if (response.data.data[10]<40 && response.data.data[10]>=35 ) {
-                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
-                }else if(response.data.data[10]>=40){
-                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
-                }
-
-                if (response.data.data[11]<40 && response.data.data[11]>=35 ) {
-                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
-                }else if(response.data.data[11]>=40){
-                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
+                if(response.data.data[7]>=300 && response.data.data[11]>=40){
+                    NotificationManager.warning('Incendio en ZONA 4', 'NOTIFICACION DE INCENDIO', 1200)
                 }
                 //--------------------------------------------ALARMAS DE TANQUE----------------------------------------
-                if (response.data.data[8]<40 && response.data.data[8]>=35 ) {
-                    NotificationManager.info('Su nivel de temperatura en la zona 1 está elevado', 'NOTIFICACION DE TEMPERATURA', 1200)
-                }else if(response.data.data[8]>=40){
-                    NotificationManager.warning('Su nivel de temperatura en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE TEMPERATURA', 1200)
-                }
 
-                if (response.data.data[4] > 300 && response.data.data[8] > 40){
+                if (response.data.data[4] >= 300 && response.data.data[8] >= 40){
                     setIncendio(true)
-                } else if (response.data.data[5] > 300 && response.data.data[9] > 40){
+                } else if (response.data.data[5] >= 300 && response.data.data[9] >= 40){
                     setIncendio(true)
-                } else if (response.data.data[6] > 300 && response.data.data[10] > 40){
+                } else if (response.data.data[6] >= 300 && response.data.data[10] >= 40){
                     setIncendio(true)
-                } else if (response.data.data[7] > 300 && response.data.data[11] > 40){
+                } else if (response.data.data[7] >= 300 && response.data.data[11] >= 40){
                     setIncendio(true)
+                }else{
+                    setIncendio(false)
                 }
                 
                
