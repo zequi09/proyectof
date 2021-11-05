@@ -41,7 +41,7 @@ const Home = () => {
     const [humoAlto, setHumoAlto] = useState(false)
 
     const  historical = async () => {
-        await axios.get('http://localhost:3002/historical')
+        await axios.get('http://100.24.37.155:3002/historical')
         .then( response => {
             setHistoricalData(response.data.historicos)
             console.log(response.data.historicos)
@@ -56,7 +56,7 @@ const Home = () => {
         
 
         const refresh = setInterval( () => {
-            axios.get('http://localhost:3002/data')
+            axios.get('http://100.24.37.155:3002/data')
             .then( response => {
                 /* setData(response.data.data) */
                 setHumo1(response.data.data[0])
@@ -322,7 +322,7 @@ const Home = () => {
                                 </AccordionItemButton>
                             </AccordionItemHeading>
                             <AccordionItemPanel>
-                                <YoutubeEmbed embedId="mSEsTjxRTAI"/>
+                                <YoutubeEmbed embedId="SqNHu5Wz8Qg"/>
                             </AccordionItemPanel>
                         </AccordionItem> }
                         </Accordion>
