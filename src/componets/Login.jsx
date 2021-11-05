@@ -25,7 +25,7 @@ const Login = () => {
     }
 
     const register = () => {
-        Axios.post('http://100.24.37.155:3002/register', {
+        Axios.post('http://54.83.96.99:3002/register', {
           username: email,
           password: pass,
         }).then((response) => {
@@ -35,7 +35,7 @@ const Login = () => {
 
 
     const login = () => {
-        Axios.post('http://100.24.37.155:3002/login', {
+        Axios.post('http://54.83.96.99:3002/login', {
           username: email,
           password: pass,
         }).then((response) => {

@@ -41,7 +41,7 @@ const Home = () => {
     const [humoAlto, setHumoAlto] = useState(false)
 
     const  historical = async () => {
-        await axios.get('http://100.24.37.155:3002/historical')
+        await axios.get('http://54.83.96.99:3002/historical')
         .then( response => {
             setHistoricalData(response.data.historicos)
             console.log(response.data.historicos)
@@ -56,7 +56,7 @@ const Home = () => {
         
 
         const refresh = setInterval( () => {
-            axios.get('http://100.24.37.155:3002/data')
+            axios.get('http://54.83.96.99:3002/data')
             .then( response => {
                 /* setData(response.data.data) */
                 setHumo1(response.data.data[0])
@@ -75,6 +75,26 @@ const Home = () => {
                 setTemp4(response.data.data[11])
     
                 setTanque(response.data.data[12])
+
+                if (response.data.data[4] >= 300 && response.data.data[8] >= 40){
+                    setIncendio(true)
+                } else if (response.data.data[5] >= 300 && response.data.data[9] >= 40){
+                    setIncendio(true)
+                } else if (response.data.data[6] >= 300 && response.data.data[10] >= 40){
+                    setIncendio(true)
+                } else if (response.data.data[7] >= 300 && response.data.data[11] >= 40){
+                    setIncendio(true)
+                } 
+                
+                if (response.data.data[4] <= 300 && response.data.data[8] <= 40){
+                    setIncendio(false)
+                }else if (response.data.data[5] <= 300 && response.data.data[9] <= 40){
+                    setIncendio(false)
+                }else if (response.data.data[6] <= 300 && response.data.data[10] <= 40){
+                    setIncendio(false)
+                }else if (response.data.data[7] <= 300 && response.data.data[11] <= 40){
+                    setIncendio(false)
+                }
                 //--------------------------------------------ALARMAS DE HUMO----------------------------------------
                 if(response.data.data[0]>=30){
                     NotificationManager.warning('Su nivel de humo en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
@@ -117,7 +137,7 @@ const Home = () => {
                 }
                 //--------------------------------------------ALARMAS DE TANQUE----------------------------------------
 
-                if (response.data.data[4] >= 300 && response.data.data[8] >= 40){
+                /* if (response.data.data[4] >= 300 && response.data.data[8] >= 40){
                     setIncendio(true)
                 } else if (response.data.data[5] >= 300 && response.data.data[9] >= 40){
                     setIncendio(true)
@@ -127,7 +147,7 @@ const Home = () => {
                     setIncendio(true)
                 }else{
                     setIncendio(false)
-                }
+                } */
                 
                
             })
@@ -138,9 +158,6 @@ const Home = () => {
         return () => clearInterval(refresh)
     },[post])
 
-    /* const now = new Date()
-    const moment = date.format(now, 'YYYY/MM/DD HH:mm:ss')
-    console.log(moment) */
     return (
         <div>
             <h1 >Bienvenido </h1>
@@ -175,11 +192,14 @@ const Home = () => {
                  }
 
                 <h2>Electrovalvula:</h2>
-                {incendio ? 
-                <h3 style={{color:"green"}}>ON</h3>
-                :
-                <h3 style={{color:"red"}}>OFF</h3>
-                 }
+                {() => {
+                    if (tanque < 1.8) {
+                        return <h3 style={{color:"green"}}>ON</h3>
+                    } else if (tanque >= 3) {
+                        return <h3 style={{color:"red"}}>OFF</h3>
+                    }
+                }
+                }
 
                 <h2>Sirenas:</h2>
                 {incendio ? 
