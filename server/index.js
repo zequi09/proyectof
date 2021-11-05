@@ -1,3 +1,4 @@
+const date = require('date-and-time');
 const express = require("express")
 const mysql = require("mysql")
 const port = 3002
@@ -7,6 +8,11 @@ const socket = dgram.createSocket('udp4');
 const app = express()
 const cors = require ("cors")
 let message = ""
+
+let now = new Date()
+let moment = date.format(now, 'ddd, MMM DD YYYY')
+console.log(moment)
+
 
 
 app.use(express.json())
@@ -60,7 +66,7 @@ app.post("/login",(req, res)  => {
 
 const db = mysql.createConnection({
   user:"root",
-  host:"localhost",
+  host:"awsrds.c0umpwsgjwqd.us-east-1.rds.amazonaws.com",
   password:"root1234.",
   database:"LoginSystem",
 })
@@ -84,29 +90,42 @@ socket.on('message', (msg, rinfo) => {
   
 
   if (msgConv[4]  > 300  && msgConv[8] > 40) {
-    db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-  [msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12]],
+    db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level, Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+  [msgConv[0], 
+  msgConv[1], 
+  msgConv[2], 
+  msgConv[3], 
+  msgConv[4], 
+  msgConv[5], 
+  msgConv[6], 
+  msgConv[7], 
+  msgConv[8], 
+  msgConv[9], 
+  msgConv[10], 
+  msgConv[11], 
+  msgConv[12], 
+  moment],
   (err, result)  => {
     console.log(err)
   })
   }else 
     if (msgConv[5]  > 300  && msgConv[9] > 40){
-      db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-  [msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12]],
+      db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level, Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+  [msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12], moment],
   (err, result)  => {
     console.log(err)
   })
 }else 
   if (msgConv[6]  > 300  && msgConv[10] > 40){
-    db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-[msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12]],
+    db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level, Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+[msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12],moment],
 (err, result)  => {
   console.log(err)
 })
 }else
 if (msgConv[7]  > 300  && msgConv[11] > 40){
-  db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-[msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12]],
+  db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level, Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+[msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12], moment],
 (err, result)  => {
 console.log(err)
 })

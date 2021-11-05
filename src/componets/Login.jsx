@@ -81,7 +81,7 @@ const Login = () => {
                          onChange={e => setPass(e.target.value)}
                          value={pass} 
                         />
-                        <button onClick={register} className="btn btn-primary btn-lg btn-block">Registrar</button>
+                        {/* <button onClick={register} className="btn btn-primary btn-lg btn-block">Registrar</button> */}
                         <button onClick={login} className="btn btn-primary btn-lg btn-block">Ingresar</button>
                     </form>
                 </div>

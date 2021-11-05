@@ -12,12 +12,13 @@ import {
     AccordionItemButton,
     AccordionItemPanel,
 } from 'react-accessible-accordion';
-import { borderRadius } from '@mui/system';
+import date from 'date-and-time'
+
 
 
 const Home = () => {
     
-    const [data,setData] = useState(null)
+    /* const [data,setData] = useState(null) */
     const [humo1,setHumo1] = useState("")
     const [humo2,setHumo2] = useState("")
     const [humo3,setHumo3] = useState("")
@@ -40,7 +41,7 @@ const Home = () => {
     const [humoAlto, setHumoAlto] = useState(false)
 
     const  historical = async () => {
-        await axios.get('http://54.158.248.204:3002/historical')
+        await axios.get('http://localhost:3002/historical')
         .then( response => {
             setHistoricalData(response.data.historicos)
             console.log(response.data.historicos)
@@ -49,14 +50,15 @@ const Home = () => {
             console.log(err)
         })
     }
+    
 
     useEffect(() => {
         
 
         const refresh = setInterval( () => {
-            axios.get('http://54.158.248.204:3002/data')
+            axios.get('http://localhost:3002/data')
             .then( response => {
-                setData(response.data.data)
+                /* setData(response.data.data) */
                 setHumo1(response.data.data[0])
                 setHumo2(response.data.data[1])
                 setHumo3(response.data.data[2])
@@ -136,7 +138,9 @@ const Home = () => {
         return () => clearInterval(refresh)
     },[post])
 
-
+    /* const now = new Date()
+    const moment = date.format(now, 'YYYY/MM/DD HH:mm:ss')
+    console.log(moment) */
     return (
         <div>
             <h1 >Bienvenido </h1>
@@ -294,9 +298,9 @@ const Home = () => {
                 <br />
                 <br />
 
-                    <Accordion allowMultipleExpanded style={{
+                    <Accordion allowZeroExpanded style={{
                             borderRadius: "1rem",
-                            boxShadow: "1rem 1rem 1rem 1rem #adb5bd",
+                            boxShadow: "0.5rem 0.5rem 0.5rem 0.5rem #adb5bd",
                             width: "90%",
                             alignContent: "center",
                             margin:"auto",
@@ -321,12 +325,24 @@ const Home = () => {
                                 <YoutubeEmbed embedId="mSEsTjxRTAI"/>
                             </AccordionItemPanel>
                         </AccordionItem> }
-                        <hr/>
+                        </Accordion>
+                        <br/>
+                        <br/>
+                        <Accordion allowZeroExpanded style={{
+                            borderRadius: "1rem",
+                            boxShadow: "0.5rem 0.5rem 0.5rem 0.5rem #adb5bd",
+                            width: "90%",
+                            alignContent: "center",
+                            margin:"auto",
+                            fontSize:"1.6rem",
+                            overflowX:"auto"
+                        }}>
+                        
                         <AccordionItem>
                             <AccordionItemHeading style={{
                             display:"flex",
                             justifyContent:"center",
-                            width:"100%"
+                            width:"auto"
                         }}>
                                 <AccordionItemButton style={{
                                     display:"flex",
@@ -334,29 +350,124 @@ const Home = () => {
                                     width:"100%",
                                     fontWeight:"bold"
                                 }}>
-                                    Históricos
+                                    Registro de datos
                                 </AccordionItemButton>
                             </AccordionItemHeading>
-                            <AccordionItemPanel>
-                            <button onClick={historical} className="btn btn-primary btn-lg btn-block">Históricos</button>
-                            {/* {historicalData.map(({ID, Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level}) => 
-                                ({ 
-                                    Humo1: Humo1, 
-                                    Humo2: Humo2,
-                                    Humo3: Humo3,
-                                    Humo4: Humo4,
-                                    Llama1: Llama1,
-                                    Llama2: Llama2,
-                                    Llama3: Llama3,
-                                    Llama4: Llama4,
-                                    Temp1: Temp1,
-                                    Temp2: Temp2,
-                                    Temp3: Temp3,
-                                    Temp4: Temp4,
-                                    Level: Level
-
-                                })
-                            )} */}
+                            <AccordionItemPanel
+                            >
+                            <div>
+                            <table class="table table-bordered"
+                                style={{
+                                    overflowX:"auto",
+                                    
+                                }}
+                            >
+                                <thead>
+                                    <tr>
+                                        <tr className="col">
+                                        <th>Fecha</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Date}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Humo 1</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Humo1}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Humo 2</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Humo2}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Humo 3</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Humo3}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Humo 4</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Humo4}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Llama 1</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Llama1}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Llama 2</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Llama2}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Llama 3</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Llama3}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Llama 4</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Llama4}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Temp 1</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Temp1}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Temp 2</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Temp2}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Temp 3</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Temp3}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Temp 4</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Temp4}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                        <tr className="col">
+                                        <th>Nivel de tanque</th>
+                                        {historicalData.map((historicos) => (
+                                       <td>{historicos.Level}</td>
+                                        )
+                                        )}
+                                        </tr>
+                                    </tr>
+                                </thead>
+                            </table>
+                            </div>
+                            
+                            <button onClick={historical} className="btn btn-primary btn-lg btn-block">Actualizar</button>
                             </AccordionItemPanel>
                         </AccordionItem>
                     </Accordion>
