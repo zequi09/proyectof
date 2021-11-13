@@ -303,7 +303,7 @@ const Home = () => {
                     </div>
                     <div className="row">
                         <div className="col">
-                            <h1>Nivel tanque de agua en Lts</h1>
+                            {<h1>Nivel tanque de agua, actualmente contiene: {tanque} litros</h1>}
                             {/* <GaugeChart id="gauge-chart5"
                                 animate={false}
                                 nrOfLevels={3}
@@ -344,7 +344,7 @@ const Home = () => {
                                 </AccordionItemButton>
                             </AccordionItemHeading>
                             <AccordionItemPanel>
-                                <YoutubeEmbed embedId="SqNHu5Wz8Qg"/>
+                                <YoutubeEmbed embedId="F8EXicrT8sE"/>
                             </AccordionItemPanel>
                         </AccordionItem> }
                         </Accordion>
