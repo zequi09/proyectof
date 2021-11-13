@@ -45,7 +45,7 @@ const Home = () => {
     const incendio = incendio1 || incendio2 || incendio3 || incendio4
 
     const  historical = async () => {
-        await axios.get('http://localhost:3002/historical')
+        await axios.get('http://54.83.96.99:3002/historical')
         .then( response => {
             setHistoricalData(response.data.historicos)
             console.log(response.data.historicos)
@@ -60,7 +60,7 @@ const Home = () => {
         
 
         const refresh = setInterval( () => {
-            axios.get('http://localhost:3002/data')
+            axios.get('http://54.83.96.99:3002/data')
             .then( response => {
                 /* setData(response.data.data) */
                 setHumo1(response.data.data[0])
