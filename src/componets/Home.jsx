@@ -12,13 +12,12 @@ import {
     AccordionItemButton,
     AccordionItemPanel,
 } from 'react-accessible-accordion';
-import date from 'date-and-time'
+import TankGauge from './TankGauge';
 
 
 
 const Home = () => {
     
-    /* const [data,setData] = useState(null) */
     const [humo1,setHumo1] = useState("")
     const [humo2,setHumo2] = useState("")
     const [humo3,setHumo3] = useState("")
@@ -37,11 +36,16 @@ const Home = () => {
     const [tanque,setTanque] = useState("")
     const [post, setPost] = useState([])
     const [historicalData,setHistoricalData] = useState([])
-    const [incendio, setIncendio] = useState(false)
+    const [incendio1, setIncendio1] = useState(false)
+    const [incendio2, setIncendio2] = useState(false)
+    const [incendio3, setIncendio3] = useState(false)
+    const [incendio4, setIncendio4] = useState(false)
     const [humoAlto, setHumoAlto] = useState(false)
+    const [NivelTanque,setNivelTanque] = useState(false)
+    const incendio = incendio1 || incendio2 || incendio3 || incendio4
 
     const  historical = async () => {
-        await axios.get('http://54.83.96.99:3002/historical')
+        await axios.get('http://localhost:3002/historical')
         .then( response => {
             setHistoricalData(response.data.historicos)
             console.log(response.data.historicos)
@@ -56,7 +60,7 @@ const Home = () => {
         
 
         const refresh = setInterval( () => {
-            axios.get('http://54.83.96.99:3002/data')
+            axios.get('http://localhost:3002/data')
             .then( response => {
                 /* setData(response.data.data) */
                 setHumo1(response.data.data[0])
@@ -77,42 +81,57 @@ const Home = () => {
                 setTanque(response.data.data[12])
 
                 if (response.data.data[4] >= 300 && response.data.data[8] >= 40){
-                    setIncendio(true)
-                } else if (response.data.data[5] >= 300 && response.data.data[9] >= 40){
-                    setIncendio(true)
-                } else if (response.data.data[6] >= 300 && response.data.data[10] >= 40){
-                    setIncendio(true)
-                } else if (response.data.data[7] >= 300 && response.data.data[11] >= 40){
-                    setIncendio(true)
+                    setIncendio1(true)
+                } else if (response.data.data[4] < 300 && response.data.data[8] < 40) {
+                    setIncendio1(false)
+                }
+
+                if (response.data.data[5] >= 300 && response.data.data[9] >= 40){
+                    setIncendio2(true)
+                } else if (response.data.data[5] < 300 && response.data.data[9] < 40) {
+                    setIncendio2(false)
+                } 
+
+                if (response.data.data[6] >= 300 && response.data.data[10] >= 40){
+                    setIncendio3(true)
+                } else if (response.data.data[6] < 300 && response.data.data[10] < 40) {
+                    setIncendio3(false)
+                }
+
+                if (response.data.data[7] >= 300 && response.data.data[11] >= 40){
+                    setIncendio4(true)
+                } else if (response.data.data[7] < 300 && response.data.data[11] < 40) {
+                    setIncendio4(false)
                 } 
                 
-                if (response.data.data[4] <= 300 && response.data.data[8] <= 40){
-                    setIncendio(false)
-                }else if (response.data.data[5] <= 300 && response.data.data[9] <= 40){
-                    setIncendio(false)
-                }else if (response.data.data[6] <= 300 && response.data.data[10] <= 40){
-                    setIncendio(false)
-                }else if (response.data.data[7] <= 300 && response.data.data[11] <= 40){
-                    setIncendio(false)
+
+
+                if (response.data.data[12] < 1.8){
+                    setNivelTanque(false)
+                }else if (response.data.data[12] >= 3){
+                    setNivelTanque(true)
                 }
+
+                
+                
                 //--------------------------------------------ALARMAS DE HUMO----------------------------------------
                 if(response.data.data[0]>=30){
-                    NotificationManager.warning('Su nivel de humo en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
+                    NotificationManager.warning('Su nivel de humo en la zona 1 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO')
                     setHumoAlto(true)
                 }else
 
                 if(response.data.data[1]>=30){
-                    NotificationManager.warning('Su nivel de humo en la zona 2 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
+                    NotificationManager.warning('Su nivel de humo en la zona 2 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO')
                     setHumoAlto(true)
                 }else
 
                 if(response.data.data[2]>=30){
-                    NotificationManager.warning('Su nivel de humo en la zona 3 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
+                    NotificationManager.warning('Su nivel de humo en la zona 3 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO')
                     setHumoAlto(true)
                 }else
 
                 if(response.data.data[3]>=30){
-                    NotificationManager.warning('Su nivel de humo en la zona 4 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO', 1200)
+                    NotificationManager.warning('Su nivel de humo en la zona 4 está elevado, POSIBLE INCENDIO', 'NOTIFICACION DE HUMO')
                     setHumoAlto(true)
                 }else{
                     setHumoAlto(false)
@@ -120,35 +139,21 @@ const Home = () => {
 
                 //--------------------------------------------ALARMAS DE INCENDIO----------------------------------------
 
-                if(response.data.data[4]>=300 && response.data.data[8]>=40){
-                    NotificationManager.warning('Incendio en ZONA 1', 'NOTIFICACION DE INCENDIO', 1200)
+                if(incendio1){
+                    NotificationManager.warning('Incendio en ZONA 1', 'NOTIFICACION DE INCENDIO')
                 }
 
-                if(response.data.data[5]>=300 && response.data.data[9]>=40){
-                    NotificationManager.warning('Incendio en ZONA 2', 'NOTIFICACION DE INCENDIO', 1200)
+                if(incendio2){
+                    NotificationManager.warning('Incendio en ZONA 2', 'NOTIFICACION DE INCENDIO')
                 }
 
-                if(response.data.data[6]>=300 && response.data.data[10]>=40){
-                    NotificationManager.warning('Incendio en ZONA 3', 'NOTIFICACION DE INCENDIO', 1200)
+                if(incendio3){
+                    NotificationManager.warning('Incendio en ZONA 3', 'NOTIFICACION DE INCENDIO')
                 }
 
-                if(response.data.data[7]>=300 && response.data.data[11]>=40){
-                    NotificationManager.warning('Incendio en ZONA 4', 'NOTIFICACION DE INCENDIO', 1200)
+                if(incendio4){
+                    NotificationManager.warning('Incendio en ZONA 4', 'NOTIFICACION DE INCENDIO')
                 }
-                //--------------------------------------------ALARMAS DE TANQUE----------------------------------------
-
-                /* if (response.data.data[4] >= 300 && response.data.data[8] >= 40){
-                    setIncendio(true)
-                } else if (response.data.data[5] >= 300 && response.data.data[9] >= 40){
-                    setIncendio(true)
-                } else if (response.data.data[6] >= 300 && response.data.data[10] >= 40){
-                    setIncendio(true)
-                } else if (response.data.data[7] >= 300 && response.data.data[11] >= 40){
-                    setIncendio(true)
-                }else{
-                    setIncendio(false)
-                } */
-                
                
             })
             .catch( error => {
@@ -158,15 +163,23 @@ const Home = () => {
         return () => clearInterval(refresh)
     },[post])
 
+
+    const TanqueMed = () => {
+        if (tanque < 1.8) {
+            return (<h3 style={{color:"green"}}>ON</h3>)
+        } else if (tanque >= 3) {
+            return <h3 style={{color:"red"}}>OFF</h3>
+        }else if( 1.8 < tanque < 3 && NivelTanque){
+            return <h3 style={{color:"red"}}>OFF</h3>
+        }else if( 1.8 < tanque < 3 && !NivelTanque){
+            return <h3 style={{color:"green"}}>ON</h3>
+        }
+    }
+
     return (
         <div>
             <h1 >Bienvenido </h1>
                 <hr />
-                {/* {data && data.map( data => 
-                    <li>{data}</li>
-                )
-                } */}
-                
                 <div style={{
                     justifyContent:"center",
                     borderRadius:"1rem 1rem 1rem 1rem",
@@ -178,31 +191,23 @@ const Home = () => {
                 }}>
                 <h1>Sistemas auxiliares</h1>
                 <h2>Sistema eléctrico:</h2>
-                {incendio ? 
+                {incendio1 || incendio2 || incendio3 || incendio4 ? 
                 <h3 style={{color:"red"}}>OFF</h3>
                 :
                 <h3 style={{color:"green"}}>ON</h3>
                  }
 
                 <h2>Sistema ventilación:</h2>
-                {incendio || humoAlto ? 
+                {incendio1 || incendio2 || incendio3 || incendio4 || humoAlto ? 
                 <h3 style={{color:"red"}}>OFF</h3>
                 :
                 <h3 style={{color:"green"}}>ON</h3>
                  }
 
                 <h2>Electrovalvula:</h2>
-                {() => {
-                    if (tanque < 1.8) {
-                        return <h3 style={{color:"green"}}>ON</h3>
-                    } else if (tanque >= 3) {
-                        return <h3 style={{color:"red"}}>OFF</h3>
-                    }
-                }
-                }
-
+                <TanqueMed/>
                 <h2>Sirenas:</h2>
-                {incendio ? 
+                {incendio1 || incendio2 || incendio3 || incendio4 ? 
                 <h3 style={{color:"green"}}>ON</h3>
                 :
                 <h3 style={{color:"red"}}>OFF</h3>
@@ -218,8 +223,6 @@ const Home = () => {
                         <div className="col">
                             <h1>Humo</h1>
                             <Chart
-                                /* width={'500px'}
-                                height={'300px'} */
                                 chartType="BarChart"
                                 loader={<div>Loading Chart</div>}
                                 data={[
@@ -242,12 +245,11 @@ const Home = () => {
                                 rootProps={{ 'data-testid': '1' }}
                             />
                         </div>
-
+                    </div>
+                    <div className="row">
                         <div className="col">
                             <h1>Llamas</h1>
                             <Chart
-                                /* width={'500px'}
-                                height={'300px'} */
                                 chartType="BarChart"
                                 loader={<div>Loading Chart</div>}
                                 data={[
@@ -276,8 +278,6 @@ const Home = () => {
                         <div className="col">
                                 <h1>Temperatura</h1>
                                 <Chart
-                                    /* width={'500px'}
-                                    height={'300px'} */
                                     chartType="BarChart"
                                     loader={<div>Loading Chart</div>}
                                     data={[
@@ -299,20 +299,22 @@ const Home = () => {
                                     // For tests
                                     rootProps={{ 'data-testid': '1' }}
                                 />
-                            </div>
-
-                            <div className="col">
-                                <h1>Nivel tanque de agua en Lts</h1>
-                                <GaugeChart id="gauge-chart5"
-                                    animate={false}
-                                    nrOfLevels={3}
-                                    arcsLength={[0.1, 0.5, 0.4]}
-                                    colors={['#EA4228', '#F5CD19', '#5BE12C']}
-                                    percent={tanque/3}
-                                    arcPadding={0.03}
-                                    />
-                                    {tanque < 1.2 ? <h2 style={{color:"red"}}>Tanque con baja reserva de agua</h2> : <h2 style={{color:"rgb(63 139 36)"}}>Tanque con buena reserva de agua</h2>}
-                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <h1>Nivel tanque de agua en Lts</h1>
+                            {/* <GaugeChart id="gauge-chart5"
+                                animate={false}
+                                nrOfLevels={3}
+                                arcsLength={[0.1, 0.5, 0.4]}
+                                colors={['#EA4228', '#F5CD19', '#5BE12C']}
+                                percent={tanque/3}
+                                arcPadding={0.03}
+                                /> */}
+                                <TankGauge Tanque={tanque}/>
+                                {tanque < 1.8 ? <h2 style={{color:"red"}}>Tanque con baja reserva de agua</h2> : <h2 style={{color:"rgb(63 139 36)"}}>Tanque con buena reserva de agua</h2>}
+                        </div>
                     </div>  
                 </div>
                 <br />
@@ -326,7 +328,7 @@ const Home = () => {
                             margin:"auto",
                             fontSize:"1.6rem"
                         }}>
-                        { incendio   && <AccordionItem>
+                        { incendio && <AccordionItem>
                             <AccordionItemHeading style={{
                             display:"flex",
                             justifyContent:"center",

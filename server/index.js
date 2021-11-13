@@ -3,15 +3,19 @@ const express = require("express")
 const mysql = require("mysql")
 const port = 3002
 const dgram = require('dgram');
+var moment = require('moment')
 const { appendFile } = require("fs")
 const socket = dgram.createSocket('udp4');
 const app = express()
 const cors = require ("cors")
 let message = ""
 
-let now = new Date()
+
+/* let now = new Date()
 let moment = date.format(now, 'ddd, MMM DD YYYY')
-console.log(moment)
+console.log(moment) */
+
+let momento = moment().format('MMMM Do YYYY, h:mm:ss a')
 
 
 
@@ -104,28 +108,28 @@ socket.on('message', (msg, rinfo) => {
   msgConv[10], 
   msgConv[11], 
   msgConv[12], 
-  moment],
+  momento],
   (err, result)  => {
     console.log(err)
   })
   }else 
     if (msgConv[5]  > 300  && msgConv[9] > 40){
       db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level, Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-  [msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12], moment],
+  [msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12], momento],
   (err, result)  => {
     console.log(err)
   })
 }else 
   if (msgConv[6]  > 300  && msgConv[10] > 40){
     db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level, Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-[msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12],moment],
+[msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12],momento],
 (err, result)  => {
   console.log(err)
 })
 }else
 if (msgConv[7]  > 300  && msgConv[11] > 40){
   db.query("INSERT INTO Inc_data (Humo1, Humo2, Humo3, Humo4, Llama1, Llama2, Llama3, Llama4, Temp1, Temp2, Temp3, Temp4, Level, Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-[msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12], moment],
+[msgConv[0], msgConv[1], msgConv[2], msgConv[3], msgConv[4], msgConv[5], msgConv[6], msgConv[7], msgConv[8], msgConv[9], msgConv[10], msgConv[11], msgConv[12], momento],
 (err, result)  => {
 console.log(err)
 })
