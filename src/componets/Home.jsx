@@ -234,7 +234,7 @@ const Home = () => {
                                     chartArea: { width: '50%' },
                                     colors: ['#0d47a1', '#1976d2', '#2196f3', '#64b5f6'],
                                     hAxis: {
-                                    title: 'Porcentaje de error respecto a condiciones de aire limpio',
+                                    title: 'Porcentaje de error respecto a condiciones normales',
                                     minValue: 0,
                                     },
                                     vAxis: {
