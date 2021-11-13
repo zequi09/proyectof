@@ -328,7 +328,7 @@ const Home = () => {
                             margin:"auto",
                             fontSize:"1.6rem"
                         }}>
-                        { incendio || humoAlto && <AccordionItem>
+                        { incendio && <AccordionItem>
                             <AccordionItemHeading style={{
                             display:"flex",
                             justifyContent:"center",
