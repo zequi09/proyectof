@@ -198,13 +198,13 @@ const Home = () => {
                  }
 
                 <h2>Sistema ventilación:</h2>
-                {incendio1 || incendio2 || incendio3 || incendio4 || humoAlto ? 
+                {humoAlto ? 
                 <h3 style={{color:"red"}}>OFF</h3>
                 :
                 <h3 style={{color:"green"}}>ON</h3>
                  }
 
-                <h2>Electrovalvula:</h2>
+                <h2>Electroválvula:</h2>
                 <TanqueMed/>
                 <h2>Sirenas:</h2>
                 {incendio1 || incendio2 || incendio3 || incendio4 ? 
@@ -234,7 +234,7 @@ const Home = () => {
                                     chartArea: { width: '50%' },
                                     colors: ['#0d47a1', '#1976d2', '#2196f3', '#64b5f6'],
                                     hAxis: {
-                                    title: 'Valores en ppm',
+                                    title: 'Porcentaje de error respecto a condiciones de aire limpio',
                                     minValue: 0,
                                     },
                                     vAxis: {
@@ -303,7 +303,7 @@ const Home = () => {
                     </div>
                     <div className="row">
                         <div className="col">
-                            {<h1>Nivel tanque de agua, actualmente contiene: {tanque} litros</h1>}
+                            {<h1>Nivel tanque de agua: {tanque} litros</h1>}
                             {/* <GaugeChart id="gauge-chart5"
                                 animate={false}
                                 nrOfLevels={3}
@@ -328,7 +328,7 @@ const Home = () => {
                             margin:"auto",
                             fontSize:"1.6rem"
                         }}>
-                        { incendio && <AccordionItem>
+                        { incendio || humoAlto && <AccordionItem>
                             <AccordionItemHeading style={{
                             display:"flex",
                             justifyContent:"center",

@@ -82,9 +82,9 @@ const TankGauge = ({Tanque}) => {
                         fill: color('#fff').toString(),
                         fontFamily: 'Arial'
                     }}
-                    onClick={() => {
+                    /* onClick={() => {
                         this.setState({ value: Math.random() * 100 });
-                    }}
+                    }} */
                 />
                 <div
                     style={{
