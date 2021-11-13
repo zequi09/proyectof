@@ -139,19 +139,19 @@ const Home = () => {
 
                 //--------------------------------------------ALARMAS DE INCENDIO----------------------------------------
 
-                if(incendio1){
+                if(response.data.data[4] >= 300 && response.data.data[8] >= 40){
                     NotificationManager.warning('Incendio en ZONA 1', 'NOTIFICACION DE INCENDIO')
                 }
 
-                if(incendio2){
+                if(response.data.data[5] >= 300 && response.data.data[9] >= 40){
                     NotificationManager.warning('Incendio en ZONA 2', 'NOTIFICACION DE INCENDIO')
                 }
 
-                if(incendio3){
+                if(response.data.data[6] >= 300 && response.data.data[10] >= 40){
                     NotificationManager.warning('Incendio en ZONA 3', 'NOTIFICACION DE INCENDIO')
                 }
 
-                if(incendio4){
+                if(response.data.data[7] >= 300 && response.data.data[11] >= 40){
                     NotificationManager.warning('Incendio en ZONA 4', 'NOTIFICACION DE INCENDIO')
                 }
                
